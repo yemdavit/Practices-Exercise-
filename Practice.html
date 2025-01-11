@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Combined Setup</title>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <style>
+        /* Add some basic styles */
+        .highlight {
+            background-color: yellow;
+        }
+        .box {
+            width: 200px;
+            height: 100px;
+            background-color: rgb(202, 210, 223);
+            text-align: center;
+            line-height: 100px;
+            border: 1px solid #000;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .todo-item {
+            margin: 5px 0;
+        }
+        .remove-btn {
+            cursor: pointer;
+            color: red;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to jQuery</h1>
+    <h1 id="main-title">Welcome</h1>
+    <button id="change-title">Change Title</button>
+
+    <p id="message">Click the button to hide this message.</p>
+    <button id="hide-message">Hide Message</button>
+
+    <p class="class-message">Message 1.</p>
+    <p class="class-message">Message 2.</p>
+    <button id="id-message">Click Me</button>
+
+    <h1>Mouse Events</h1>
+    <div class="box" id="mouse-box">Hover or Click Me!</div>
+
+    <h1>Keyboard Events</h1>
+    <input type="text" id="keyboard-input" placeholder="Type something here">
+
+    <h1>Form Events</h1>
+    <form id="form-example">
+        <input type="text" id="focus-input" placeholder="Focus on me"><br><br>
+        <input type="text" id="change-input" placeholder="Type and change value"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+  
+
+    <h1>Interactive To-Do List</h1>
+    <input type="text" id="new-task" placeholder="Enter a new task" />
+    <button id="add-task">Add Task</button>
+    <ul id="todo-list"></ul>
+
+    <script>
+        $(document).ready(function () {
+            console.log("jQuery is successfully loaded!");
+
+            // Change title
+            $('#change-title').click(function () {
+                $('#main-title').text('Hello, jQuery!');
+            });
+
+            // Hide message
+            $('#hide-message').click(function () {
+                $('#message').hide();
+            });
+
+            // Change class messages
+            $('#id-message').click(function () {
+                $('.class-message').text('Hello, jQuery!');
+            });
+
+            // Mouse events
+            $('#mouse-box').on('click', function () {
+                alert('Box clicked!');
+            });
+            $('#mouse-box').on('dblclick', function () {
+                alert('Box double-clicked!');
+            });
+            $('#mouse-box').on('mouseenter', function () {
+                $(this).addClass('highlight');
+            });
+            $('#mouse-box').on('mouseleave', function () {
+                $(this).removeClass('highlight');
+            });
+            $('#mouse-box').on('mousemove', function (e) {
+                console.log(`Mouse Position - X: ${e.pageX}, Y: ${e.pageY}`);
+            });
+
+            // Keyboard events
+            $('#keyboard-input').on('keydown', function (e) {
+                console.log(`Key down: ${e.key}`);
+            });
+            $('#keyboard-input').on('keyup', function (e) {
+                console.log(`Key up: ${e.key}`);
+            });
+
+            // Form events
+            $('#focus-input').on('focus', function () {
+                $(this).addClass('highlight');
+            });
+            $('#focus-input').on('blur', function () {
+                $(this).removeClass('highlight');
+            });
+            $('#change-input').on('change', function () {
+                alert(`Value changed to: ${$(this).val()}`);
+            });
+            $('#form-example').on('submit', function (e) {
+                e.preventDefault();
+                alert('Form submitted!');
+            });
+
+     
+
+            // Interactive To-Do List functionality
+            $('#add-task').on('click', function () {
+                const task = $('#new-task').val();
+                if (task) {
+                    const listItem = `<li class="todo-item">
+                                        <span class="task-text">${task}</span>
+                                        <span class="remove-btn">Remove</span>
+                                      </li>`;
+                    $('#todo-list').append(listItem);
+                    $('#new-task').val(''); // Clear input
+                }
+            });
+
+            // Mark a task as completed (event delegation)
+            $(document).on('click', '.task-text', function () {
+                $(this).toggleClass('completed');
+            });
+
+            // Remove a task (event delegation)
+            $(document).on('click', '.remove-btn', function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+</body>
+</html>
